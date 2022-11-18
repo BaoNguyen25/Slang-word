@@ -60,4 +60,15 @@ public class SlangWordList {
         dict.remove(word);
     }
 
+    public void resetOriginalDict() throws FileNotFoundException {
+        hf.cleanFile();
+        dict = hf.readOriginFile();
+        hf.writeToFile(dict);
+    }
+
+    public void randomSlang() {
+        Object[] crunchifyKey = dict.keySet().toArray();
+        Object key = crunchifyKey[new Random().nextInt(crunchifyKey.length)];
+        System.out.println(key + " :: " + dict.get(key));
+    }
 }
