@@ -15,15 +15,16 @@ public class SlangApplication extends JFrame {
 
         // create header
         JLabel header = new JLabel("MENU", JLabel.CENTER);
-        Font font  = new Font(Font.SANS_SERIF,  Font.BOLD, 20);
+        Font font  = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         header.setFont(font);
-        header.setForeground(Color.RED);
+        header.setForeground(Color.orange);
         JPanel jPanel_header = new JPanel();
+        jPanel_header.setBackground(new Color(81,80,106));
         jPanel_header.setLayout(new BorderLayout());
         jPanel_header.add(header, BorderLayout.CENTER);
 
         // create list of features
-        JPanel jPanel_features = addButton();
+        JPanelGradient jPanel_features = addButton();
 
         this.add(jPanel_header, BorderLayout.NORTH);
         this.add(jPanel_features, BorderLayout.CENTER);
@@ -34,8 +35,9 @@ public class SlangApplication extends JFrame {
         this.setVisible(true);
     }
 
-    public JPanel addButton() {
-        JPanel buttonPanel = new JPanel();
+    public JPanelGradient addButton() {
+        JPanelGradient buttonPanel = new JPanelGradient();
+
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
 
         buttonPanel.add(createButton("View Slang Words List"));
@@ -74,6 +76,10 @@ public class SlangApplication extends JFrame {
     public JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        Font font = new Font(Font.SERIF, Font.BOLD, 15);
+        button.setForeground(Color.RED);
+        button.setFont(font);
+        button.setBackground(Color.WHITE);
         button.setFocusable(false);
 
         return button;
