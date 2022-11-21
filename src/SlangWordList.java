@@ -1,5 +1,4 @@
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -36,9 +35,16 @@ public class SlangWordList {
         return array;
     }
 
-    public ArrayList<String> searchBySlang(String s) {
+    public String[][] searchBySlang(String s) {
         if(dict.containsKey(s)) {
-            System.out.println(dict.get(s));
+            ArrayList<String> cur = dict.get(s);
+            String[][] array = new String[cur.size()][3];
+            for(int i = 0; i < cur.size(); i++) {
+                array[i][0] = String.valueOf(i);
+                array[i][1] = s;
+                array[i][2] = cur.get(i);
+            }
+            return array;
         }
         return null;
     }

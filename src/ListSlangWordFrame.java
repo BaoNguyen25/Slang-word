@@ -7,9 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ListSlangWordFrame extends JFrame implements ActionListener, TableModelListener {
-    JButton backButton;
-    JTable jt;
-    SlangWordList list;
+    private JButton backButton;
+    private JTable table;
+    private SlangWordList list;
+
     public ListSlangWordFrame() {
         list = new SlangWordList();
         Container container = this.getContentPane();
@@ -26,16 +27,16 @@ public class ListSlangWordFrame extends JFrame implements ActionListener, TableM
         JPanelGradient panelTable = new JPanelGradient();
         String data[][] = list.getList();
         String column[] = { "NUMBER", "SLANG", "MEANING" };
-        jt = new JTable(data, column);
-        jt.setRowHeight(50);
+        table = new JTable(data, column);
+        table.setRowHeight(50);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        jt.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        jt.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        jt.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        jt.getModel().addTableModelListener(this);
+        table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        table.getModel().addTableModelListener(this);
 
-        JScrollPane sp = new JScrollPane(jt);
+        JScrollPane sp = new JScrollPane(table);
         panelTable.setLayout(new BoxLayout(panelTable, BoxLayout.X_AXIS));
         panelTable.add(sp);
 
@@ -52,7 +53,7 @@ public class ListSlangWordFrame extends JFrame implements ActionListener, TableM
         backButton.setBackground(Color.WHITE);
         bottomPanel.add(backButton);
 
-        // Add to con
+        // Add elements to container
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         container.add(Box.createRigidArea(new Dimension(0, 10)));
         container.add(header);
@@ -68,6 +69,7 @@ public class ListSlangWordFrame extends JFrame implements ActionListener, TableM
         this.setSize(700, 700);
         this.setLocationRelativeTo(null);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
