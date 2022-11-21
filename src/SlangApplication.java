@@ -1,21 +1,19 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class SlangApplication extends JFrame {
+public class SlangApplication extends JFrame implements ActionListener {
 
     public SlangApplication() {
-    }
-
-    public void init() {
-
         this.setTitle("Slang Words Application");
         this.setSize(400, 600);
         this.setLayout(new BorderLayout());
 
         // create header
         JLabel header = new JLabel("MENU", JLabel.CENTER);
-        Font font  = new Font(Font.SANS_SERIF, Font.BOLD, 30);
+        Font font = new Font("Gill Sans MT", Font.PLAIN, 35);
         header.setFont(font);
         header.setForeground(Color.orange);
         JPanel jPanel_header = new JPanel();
@@ -29,9 +27,8 @@ public class SlangApplication extends JFrame {
         this.add(jPanel_header, BorderLayout.NORTH);
         this.add(jPanel_features, BorderLayout.CENTER);
 
-        this.setDefaultLookAndFeelDecorated(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
@@ -80,8 +77,29 @@ public class SlangApplication extends JFrame {
         button.setForeground(Color.RED);
         button.setFont(font);
         button.setBackground(Color.WHITE);
+        button.addActionListener(this);
         button.setFocusable(false);
 
         return button;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand() == "View Slang Words List"){
+            try {
+                new ListSlangWordFrame();
+                this.dispose();
+            }catch(Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+        if(e.getActionCommand() == "Find Slang By Word") {
+            try {
+                new FindWordFrame();
+                this.dispose();
+            }catch(Exception e2) {
+                e2.printStackTrace();
+            }
+        }
     }
 }
