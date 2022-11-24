@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-public class FindWordFrame extends JFrame implements ActionListener {
+public class FindDefinitionFrame extends JFrame implements ActionListener{
     private SlangWordList list;
     private JButton backButton;
     private JButton findButton;
@@ -14,22 +14,22 @@ public class FindWordFrame extends JFrame implements ActionListener {
     private JTextField textField;
     private String[][] results;
     private DefaultTableModel model;
-    public FindWordFrame(){
 
+    public FindDefinitionFrame() {
         list = new SlangWordList();
         Container container = this.getContentPane();
         container.setBackground(new Color(81,80,106));
 
         //Title
         JLabel header = new JLabel();
-        header.setText("Find Slang By Word");
+        header.setText("Find Slang By Definition");
         header.setForeground(Color.ORANGE);
         header.setFont(new Font("Gill Sans MT", Font.PLAIN, 35));
         header.setAlignmentX(CENTER_ALIGNMENT);
 
         // Form
         JPanel form = new JPanel();
-        JLabel formLabel = new JLabel("Input Slang Word");
+        JLabel formLabel = new JLabel("Input Definition");
         textField = new JTextField();
         findButton = new JButton("Find");
         findButton.addActionListener(this);
@@ -103,24 +103,25 @@ public class FindWordFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if(e.getSource() == findButton) {
             this.clearTable();
             String key = textField.getText();
             if(key.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please input slang word you want to find", "Error",
+                JOptionPane.showMessageDialog(this, "Please input definition you want to find its slang", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            results = list.searchBySlang(key);
+            results = list.searchByDefinition(key);
             if(results == null) {
-                JOptionPane.showMessageDialog(this, "The input slang word does not exists!", "Message", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "The input definition does not exists!", "Message", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
+
             for(int i = 0; i < results.length; i++) {
                 String s[] = results[i];
                 model.addRow(s);
             }
+
         }
         if(e.getSource() == backButton) {
             this.dispose();

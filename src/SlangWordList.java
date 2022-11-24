@@ -49,17 +49,31 @@ public class SlangWordList {
         return null;
     }
 
-    public void searchByDefinition(String s) {
+    public String[][] searchByDefinition(String s) {
+
+        ArrayList<ArrayList<String>> res = new ArrayList<>();
+        int idx = 0;
         for(Map.Entry<String, ArrayList<String>> entry : dict.entrySet()) {
             ArrayList<String> list = entry.getValue();
-            for(String str : list ) {
-                str = str.toLowerCase();
-                if(str.contains(s.toLowerCase())) {
-                    System.out.println(entry);
+            for(String str : list)
+                if(str.toLowerCase().startsWith(s.toLowerCase())) {
+                    ArrayList<String> cur = new ArrayList<>();
+                    cur.add(String.valueOf(idx++));
+                    cur.add(entry.getKey());
+                    cur.add(str);
+                    res.add(cur);
                 }
             }
+            String[][] array = new String[res.size()][];
+            for (int i = 0; i < res.size(); i++) {
+                ArrayList<String> row = res.get(i);
+                array[i] = row.toArray(new String[row.size()]);
+            }
+
+            return res.size() == 0 ? null : array;
         }
-    }
+
+
     public void addSlang(String word, String definition, boolean isDuplicate) {
         if(!dict.containsKey(word)) {
             dict.put(word, new ArrayList<>());

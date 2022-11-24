@@ -101,5 +101,14 @@ public class SlangApplication extends JFrame implements ActionListener {
                 e2.printStackTrace();
             }
         }
+        if(e.getActionCommand() == "Find Slang By Definition") {
+            try {
+                new FindDefinitionFrame();
+                this.dispose();
+            }
+            catch(Exception e3) {
+                e3.printStackTrace();
+            }
+        }
     }
 }
