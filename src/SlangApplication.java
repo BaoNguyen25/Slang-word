@@ -95,6 +95,7 @@ public class SlangApplication extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
         }
+
         if(e.getActionCommand() == "Find Slang By Word") {
             try {
                 new FindWordFrame();
@@ -103,6 +104,7 @@ public class SlangApplication extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
         }
+
         if(e.getActionCommand() == "Find Slang By Definition") {
             try {
                 new FindDefinitionFrame();
@@ -112,6 +114,7 @@ public class SlangApplication extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
         }
+
         if(e.getActionCommand() == "View Search History") {
             try {
                 new SearchHistoryFrame();
@@ -120,6 +123,7 @@ public class SlangApplication extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
         }
+
         if(e.getActionCommand() == "Reset Slang Words List") {
             int n = JOptionPane.showConfirmDialog(this, "Do you really want to reset Slang Word List?", "Message",
                     JOptionPane.YES_NO_OPTION);
@@ -132,13 +136,25 @@ public class SlangApplication extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Reset successfully.");
             }
         }
+
         if(e.getActionCommand() == "Delete Slang Word") {
             try {
                 new DeleteSlangFrame();
+                this.dispose();
             }catch(Exception ex) {
                 ex.printStackTrace();
             }
         }
+
+        if(e.getActionCommand() == "Edit Slang Word") {
+            try {
+                new EditSlangFrame();
+                this.dispose();
+            }catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
         if(e.getActionCommand() == "Random Slang Word") {
             try {
                 new RandomSlangFrame();

@@ -34,6 +34,7 @@ public class HandleFiles {
                         meanings.add(s);
                     }
                 }
+                slang[0] = slang[0].trim();
                 list.put(slang[0], meanings);
             }
             fr.close();
@@ -81,6 +82,7 @@ public class HandleFiles {
                         meanings.add(s);
                     }
                 }
+                slang[0] = slang[0].trim();
                 list.put(slang[0], meanings);
             }
             fr.close();

@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -8,7 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-public class DeleteSlangFrame extends JFrame implements ActionListener, ListSelectionListener {
+public class EditSlangFrame extends JFrame implements ActionListener {
+
     private SlangWordList list;
     private JButton backButton;
     private JButton findButton;
@@ -16,15 +19,16 @@ public class DeleteSlangFrame extends JFrame implements ActionListener, ListSele
     private String[][] results;
     private DefaultTableModel model;
     private JTextField textField;
+    private JButton saveButton;
 
-    public DeleteSlangFrame() {
+    public EditSlangFrame() {
         list = new SlangWordList();
         Container container = this.getContentPane();
         container.setBackground(new Color(81,80,106));
 
         //Title
         JLabel header = new JLabel();
-        header.setText("Choose slang word you want to delete");
+        header.setText("Choose slang word you want to edit");
         header.setForeground(Color.ORANGE);
         header.setFont(new Font("Gill Sans MT", Font.PLAIN, 35));
         header.setAlignmentX(CENTER_ALIGNMENT);
@@ -72,8 +76,6 @@ public class DeleteSlangFrame extends JFrame implements ActionListener, ListSele
         table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         table.getModel().addTableModelListener(table);
-        ListSelectionModel selectionModel = table.getSelectionModel();
-        selectionModel.addListSelectionListener(this);
 
         // Scroll
         JScrollPane sp = new JScrollPane(table);
@@ -91,6 +93,16 @@ public class DeleteSlangFrame extends JFrame implements ActionListener, ListSele
         backButton.setForeground(Color.RED);
         backButton.setFont(font);
         backButton.setBackground(Color.WHITE);
+
+        saveButton = new JButton("Save Change");
+        saveButton.addActionListener(this);
+        saveButton.setFocusable(false);
+        saveButton.setAlignmentX(CENTER_ALIGNMENT);
+        saveButton.setForeground(Color.RED);
+        saveButton.setFont(font);
+        saveButton.setBackground(Color.WHITE);
+
+        bottomPanel.add(saveButton);
         bottomPanel.add(backButton);
 
         // Add elements to container
@@ -136,27 +148,21 @@ public class DeleteSlangFrame extends JFrame implements ActionListener, ListSele
                 model.addRow(s);
             }
         }
+        if(e.getSource() == saveButton) {
+            int row = table.getSelectedRow();
+            int col = table.getSelectedColumn();
+            if (row == -1 || col == -1)
+                return;
+            list.editSlang(results[row][1], (String) table.getValueAt(row,2), (String) table.getValueAt(row,1));
+            list.editDefinition((String) table.getValueAt(row, 1), results[row][2], (String) table.getValueAt(row, 2));
+            JOptionPane.showMessageDialog(this, "Updated successfully");
+        }
     }
 
     void clearTable() {
         int rowCount = model.getRowCount();
         for (int i = rowCount - 1; i >= 0; i--) {
             model.removeRow(i);
-        }
-    }
-
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
-        int row = table.getSelectedRow();
-        int col = table.getSelectedColumn();
-        if (row == -1 || col == -1)
-            return;
-        String slang = (String) table.getValueAt(row, 1);
-        int n = JOptionPane.showConfirmDialog(this, "Do you want to delete this slang word?", "Message", JOptionPane.YES_NO_OPTION);
-        if (n == 0) {
-            list.deleteSlang(slang, (String) table.getValueAt(row, 2));
-            model.removeRow(row);
-            JOptionPane.showMessageDialog(this, "Deleted successfully");
         }
     }
 }

@@ -87,7 +87,45 @@ public class SlangWordList {
         }
     }
 
-    public void editSlang(String word, String definition) {
+    public void editSlang(String word, String definition, String newWord) {
+        if(word == newWord)
+            return;
+
+        if(dict.containsKey(newWord)) {
+            ArrayList<String> meaningList = dict.get(newWord);
+            if(!meaningList.contains(definition)) {
+                meaningList.add(definition);
+            }
+        } else{
+            ArrayList<String> meaningList = new ArrayList<>();
+            meaningList.add(definition);
+            dict.put(newWord, meaningList);
+        }
+
+        ArrayList<String> oldList = dict.get(word);
+        if(oldList != null) {
+            int index = oldList.indexOf(definition);
+            if(oldList.size() == 1) {
+                dict.remove(word);
+            } else{
+                oldList.remove(index);
+                dict.put(word, oldList);
+            }
+        }
+        hf.writeToFile(dict);
+    }
+
+    public void editDefinition(String word, String definition, String newDefinition) {
+        if(definition == newDefinition)
+            return;
+
+        ArrayList<String> meaning = dict.get(word);
+        if(meaning != null) {
+            int index = meaning.indexOf(definition);
+            if(index != -1)
+                meaning.set(index, newDefinition);
+        }
+        hf.writeToFile(dict);
     }
 
     public void deleteSlang(String word, String definition) {
@@ -95,7 +133,7 @@ public class SlangWordList {
         int idx = meaningList.indexOf(definition);
         if(meaningList.size() == 1) {
             dict.remove(word);
-        } else {
+        } else{
             meaningList.remove(idx);
             dict.put(word, meaningList);
         }
