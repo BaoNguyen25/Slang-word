@@ -2,10 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 public class SlangApplication extends JFrame implements ActionListener {
+    private SlangWordList list;
 
     public SlangApplication() {
+        list = new SlangWordList();
         this.setTitle("Slang Words Application");
         this.setSize(400, 600);
         this.setLayout(new BorderLayout());
@@ -113,6 +116,25 @@ public class SlangApplication extends JFrame implements ActionListener {
             try {
                 new SearchHistoryFrame();
                 this.dispose();
+            }catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        if(e.getActionCommand() == "Reset Slang Words List") {
+            int n = JOptionPane.showConfirmDialog(this, "Do you really want to reset Slang Word List?", "Message",
+                    JOptionPane.YES_NO_OPTION);
+            if (n == 0) {
+                try {
+                    list.resetOriginalDict();
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+                JOptionPane.showMessageDialog(this, "Reset successfully.");
+            }
+        }
+        if(e.getActionCommand() == "Delete Slang Word") {
+            try {
+                new DeleteSlangFrame();
             }catch(Exception ex) {
                 ex.printStackTrace();
             }

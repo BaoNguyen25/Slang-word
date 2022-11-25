@@ -1,8 +1,5 @@
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
-import java.util.TreeMap;
+import java.util.*;
 
 public class SlangWordList {
     private TreeMap<String, ArrayList<String>> dict;
@@ -93,8 +90,16 @@ public class SlangWordList {
     public void editSlang(String word, String definition) {
     }
 
-    public void deleteSlang(String word) {
-        dict.remove(word);
+    public void deleteSlang(String word, String definition) {
+        ArrayList<String> meaningList = dict.get(word);
+        int idx = meaningList.indexOf(definition);
+        if(meaningList.size() == 1) {
+            dict.remove(word);
+        } else {
+            meaningList.remove(idx);
+            dict.put(word, meaningList);
+        }
+        hf.writeToFile(dict);
     }
 
     public void resetOriginalDict() throws FileNotFoundException {
