@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -89,16 +88,16 @@ public class SlangApplication extends JFrame implements ActionListener {
             try {
                 new ListSlangWordFrame();
                 this.dispose();
-            }catch(Exception e1) {
-                e1.printStackTrace();
+            }catch(Exception ex) {
+                ex.printStackTrace();
             }
         }
         if(e.getActionCommand() == "Find Slang By Word") {
             try {
                 new FindWordFrame();
                 this.dispose();
-            }catch(Exception e2) {
-                e2.printStackTrace();
+            }catch(Exception ex) {
+                ex.printStackTrace();
             }
         }
         if(e.getActionCommand() == "Find Slang By Definition") {
@@ -106,8 +105,24 @@ public class SlangApplication extends JFrame implements ActionListener {
                 new FindDefinitionFrame();
                 this.dispose();
             }
-            catch(Exception e3) {
-                e3.printStackTrace();
+            catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        if(e.getActionCommand() == "View Search History") {
+            try {
+                new SearchHistoryFrame();
+                this.dispose();
+            }catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        if(e.getActionCommand() == "Random Slang Word") {
+            try {
+                new RandomSlangFrame();
+                this.dispose();
+            }catch(Exception ex) {
+                ex.printStackTrace();
             }
         }
     }

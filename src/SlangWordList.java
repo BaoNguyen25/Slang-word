@@ -69,9 +69,8 @@ public class SlangWordList {
                 ArrayList<String> row = res.get(i);
                 array[i] = row.toArray(new String[row.size()]);
             }
-
             return res.size() == 0 ? null : array;
-        }
+    }
 
 
     public void addSlang(String word, String definition, boolean isDuplicate) {
@@ -104,9 +103,13 @@ public class SlangWordList {
         hf.writeToFile(dict);
     }
 
-    public void randomSlang() {
+    public String[] randomSlang() {
         Object[] crunchifyKey = dict.keySet().toArray();
         Object key = crunchifyKey[new Random().nextInt(crunchifyKey.length)];
-        System.out.println(key + " :: " + dict.get(key));
+        String[] slang = new String[2];
+        slang[0] = (String) key;
+        slang[1] = String.valueOf(dict.get((String)key));
+        slang[1] = slang[1].substring(1, slang[1].length()-1);
+        return slang;
     }
 }

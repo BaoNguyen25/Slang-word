@@ -91,7 +91,7 @@ public class FindWordFrame extends JFrame implements ActionListener {
         container.add(Box.createRigidArea(new Dimension(0, 10)));
         container.add(panelTable);
         container.add(Box.createRigidArea(new Dimension(0, 10)));
-        container.add(backButton);
+        container.add(bottomPanel);
 
         // Setting JFrame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -4,55 +4,31 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
-public class FindDefinitionFrame extends JFrame implements ActionListener{
+public class SearchHistoryFrame extends JFrame implements ActionListener {
     private SlangWordList list;
     private JButton backButton;
-    private JButton findButton;
+    private JButton clearButton;
     private JTable table;
-    private JTextField textField;
     private String[][] results;
     private DefaultTableModel model;
 
-    public FindDefinitionFrame() {
+    public SearchHistoryFrame() {
         list = new SlangWordList();
         Container container = this.getContentPane();
         container.setBackground(new Color(81,80,106));
 
         //Title
         JLabel header = new JLabel();
-        header.setText("Find Slang By Definition");
+        header.setText("Search History");
         header.setForeground(Color.ORANGE);
         header.setFont(new Font("Gill Sans MT", Font.PLAIN, 35));
         header.setAlignmentX(CENTER_ALIGNMENT);
 
-        // Form
-        JPanel form = new JPanel();
-        JLabel formLabel = new JLabel("Input Definition");
-        textField = new JTextField();
-        findButton = new JButton("Find");
-        findButton.addActionListener(this);
-        findButton.setMnemonic(KeyEvent.VK_ENTER);
-        findButton.setFocusable(false);
-        findButton.setAlignmentX(CENTER_ALIGNMENT);
-        findButton.setForeground(Color.RED);
-        findButton.setFont(new Font(Font.SERIF, Font.BOLD, 15));
-        findButton.setBackground(Color.WHITE);
-
-        form.setLayout(new BorderLayout(10, 10));
-        form.add(formLabel, BorderLayout.LINE_START);
-        form.add(textField, BorderLayout.CENTER);
-        form.add(findButton, BorderLayout.LINE_END);
-        Dimension size = new Dimension(700, 30);
-        form.setMaximumSize(size);
-        form.setPreferredSize(size);
-        form.setMinimumSize(size);
-
         // Table
         JPanel panelTable = new JPanel();
         panelTable.setBackground(Color.black);
-        String column[] = { "NUMBER", "SLANG", "MEANING" };
+        String column[] = {"SLANG", "MEANING", "TIME"};
 
         table = new JTable(new DefaultTableModel(column, 0));
         table.setRowHeight(50);
@@ -80,14 +56,22 @@ public class FindDefinitionFrame extends JFrame implements ActionListener{
         backButton.setForeground(Color.RED);
         backButton.setFont(font);
         backButton.setBackground(Color.WHITE);
+
+        clearButton = new JButton("Clear history");
+        clearButton.addActionListener(this);
+        clearButton.setFocusable(false);
+        clearButton.setAlignmentX(CENTER_ALIGNMENT);
+        clearButton.setForeground(Color.RED);
+        clearButton.setFont(font);
+        clearButton.setBackground(Color.WHITE);
+
+        bottomPanel.add(clearButton);
         bottomPanel.add(backButton);
 
         // Add elements to container
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         container.add(Box.createRigidArea(new Dimension(0, 10)));
         container.add(header);
-        container.add(Box.createRigidArea(new Dimension(0, 10)));
-        container.add(form);
         container.add(Box.createRigidArea(new Dimension(0, 10)));
         container.add(panelTable);
         container.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -103,25 +87,8 @@ public class FindDefinitionFrame extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == findButton) {
+        if(e.getSource() == clearButton) {
             this.clearTable();
-            String key = textField.getText();
-            if(key.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please input definition you want to find its slang", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            results = list.searchByDefinition(key);
-            if(results == null) {
-                JOptionPane.showMessageDialog(this, "The input definition does not exists!", "Message", JOptionPane.INFORMATION_MESSAGE);
-                return;
-            }
-
-            for(int i = 0; i < results.length; i++) {
-                String s[] = results[i];
-                model.addRow(s);
-            }
-
         }
         if(e.getSource() == backButton) {
             this.dispose();
