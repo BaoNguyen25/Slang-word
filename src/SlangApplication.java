@@ -137,6 +137,15 @@ public class SlangApplication extends JFrame implements ActionListener {
             }
         }
 
+        if(e.getActionCommand() == "Add Slang Word") {
+            try {
+                new AddSlangFrame();
+                this.dispose();
+            }catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
         if(e.getActionCommand() == "Delete Slang Word") {
             try {
                 new DeleteSlangFrame();

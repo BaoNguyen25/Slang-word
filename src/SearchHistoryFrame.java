@@ -69,7 +69,7 @@ public class SearchHistoryFrame extends JFrame implements ActionListener {
         clearButton.addActionListener(this);
         clearButton.setFocusable(false);
         clearButton.setAlignmentX(CENTER_ALIGNMENT);
-        clearButton.setForeground(Color.RED);
+        clearButton.setForeground(Color.BLUE);
         clearButton.setFont(font);
         clearButton.setBackground(Color.WHITE);
 

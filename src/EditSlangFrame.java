@@ -98,7 +98,7 @@ public class EditSlangFrame extends JFrame implements ActionListener {
         saveButton.addActionListener(this);
         saveButton.setFocusable(false);
         saveButton.setAlignmentX(CENTER_ALIGNMENT);
-        saveButton.setForeground(Color.RED);
+        saveButton.setForeground(Color.BLUE);
         saveButton.setFont(font);
         saveButton.setBackground(Color.WHITE);
 
