@@ -14,6 +14,7 @@ public class FindWordFrame extends JFrame implements ActionListener {
     private JTextField textField;
     private String[][] results;
     private DefaultTableModel model;
+    private HandleFiles hf = new HandleFiles();
     public FindWordFrame(){
 
         list = new SlangWordList();
@@ -120,6 +121,13 @@ public class FindWordFrame extends JFrame implements ActionListener {
             for(int i = 0; i < results.length; i++) {
                 String s[] = results[i];
                 model.addRow(s);
+            }
+
+            try {
+                for (int i = 0; i < results.length; i++)
+                    hf.saveHistory(results[i][1], results[i][2]);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
         if(e.getSource() == backButton) {

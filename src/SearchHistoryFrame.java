@@ -4,6 +4,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 public class SearchHistoryFrame extends JFrame implements ActionListener {
     private SlangWordList list;
@@ -12,7 +13,7 @@ public class SearchHistoryFrame extends JFrame implements ActionListener {
     private JTable table;
     private String[][] results;
     private DefaultTableModel model;
-
+    private HandleFiles hf = new HandleFiles();
     public SearchHistoryFrame() {
         list = new SlangWordList();
         Container container = this.getContentPane();
@@ -29,10 +30,17 @@ public class SearchHistoryFrame extends JFrame implements ActionListener {
         JPanel panelTable = new JPanel();
         panelTable.setBackground(Color.black);
         String column[] = {"SLANG", "MEANING", "TIME"};
-
+        results = hf.readHistory();
         table = new JTable(new DefaultTableModel(column, 0));
-        table.setRowHeight(50);
         model = (DefaultTableModel) table.getModel();
+        table.setRowHeight(50);
+
+        // add history to table;
+        for(int i = 0; i < results.length; i++) {
+            String s[] = results[i];
+            model.addRow(s);
+        }
+
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
@@ -89,6 +97,11 @@ public class SearchHistoryFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == clearButton) {
             this.clearTable();
+            try {
+                hf.cleanFile("history.txt");
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         if(e.getSource() == backButton) {
             this.dispose();

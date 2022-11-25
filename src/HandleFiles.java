@@ -1,12 +1,17 @@
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class HandleFiles {
 
-    final String WORKING_SLANG_PATH = "slang.txt";
-    final String ORIGIN_SLANG_PATH = "origin-slang.txt";
+    private final String WORKING_SLANG_PATH = "slang.txt";
+    private final String ORIGIN_SLANG_PATH = "origin-slang.txt";
+    private final String HISTORY_PATH = "history.txt";
+    private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private Date date;
 
     public HandleFiles() {
     }
@@ -54,7 +59,7 @@ public class HandleFiles {
             }
             fw.close();
         }catch(Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -87,8 +92,48 @@ public class HandleFiles {
         return list;
     }
 
-    public void cleanFile() throws FileNotFoundException {
-        PrintWriter pw = new PrintWriter("slang.txt");
+    public void saveHistory(String slag, String meaning){
+        try {
+            File f = new File(HISTORY_PATH);
+            FileWriter fr = new FileWriter(f, true);
+            date = new Date();
+            fr.write(slag + "`" + meaning + "`" + formatter.format(date) + "\n");
+            fr.close();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String[][] readHistory() {
+        ArrayList<ArrayList<String>> res = new ArrayList<>();
+        try {
+            FileReader fr = new FileReader(HISTORY_PATH);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                ArrayList<String> list = new ArrayList<>();
+                String[] slang = line.split("`");
+                list.add(slang[0]);
+                list.add(slang[1]);
+                list.add(slang[2]);
+                res.add(list);
+            }
+            fr.close();
+            br.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String[][] array = new String[res.size()][];
+        for (int i = 0; i < res.size(); i++) {
+            ArrayList<String> row = res.get(i);
+            array[i] = row.toArray(new String[row.size()]);
+        }
+        return array;
+    }
+
+    public void cleanFile(String filename) throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(filename);
         pw.close();
     }
 }

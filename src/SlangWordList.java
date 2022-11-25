@@ -98,7 +98,7 @@ public class SlangWordList {
     }
 
     public void resetOriginalDict() throws FileNotFoundException {
-        hf.cleanFile();
+        hf.cleanFile("slang.txt");
         dict = hf.readOriginFile();
         hf.writeToFile(dict);
     }
