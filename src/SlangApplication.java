@@ -133,7 +133,7 @@ public class SlangApplication extends JFrame implements ActionListener {
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
-                JOptionPane.showMessageDialog(this, "Reset successfully.");
+                JOptionPane.showMessageDialog(this, "Reset Successfully!");
             }
         }
 

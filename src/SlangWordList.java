@@ -69,22 +69,27 @@ public class SlangWordList {
             return res.size() == 0 ? null : array;
     }
 
+    public boolean checkSlangExists(String word) {
+        return dict.containsKey(word);
+    }
 
-    public void addSlang(String word, String definition, boolean isDuplicate) {
+    public void addSlang(String word, String definition) {
         if(!dict.containsKey(word)) {
             dict.put(word, new ArrayList<>());
             dict.get(word).add(definition);
         }
         else {
-            if(isDuplicate) {
-                dict.get(word).add(definition);
-            }
-            else {
-                dict.remove(word);
-                dict.put(word, new ArrayList<>());
-                dict.get(word).add(definition);
-            }
+            dict.get(word).add(definition);
         }
+        hf.writeToFile(dict);
+    }
+
+    public void overwriteSlang(String word, String definition, String newDefinition) {
+        ArrayList<String> meanings = dict.get(word);
+        int idx = meanings.indexOf(definition);
+        meanings.set(idx, newDefinition);
+        dict.put(word, meanings);
+        hf.writeToFile(dict);
     }
 
     public void editSlang(String word, String definition, String newWord) {

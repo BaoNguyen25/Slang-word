@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ListSlangWordFrame extends JFrame implements ActionListener, TableModelListener {
+public class ListSlangWordFrame extends JFrame implements ActionListener {
     private JButton backButton;
     private JTable table;
     private SlangWordList list;
@@ -34,7 +34,6 @@ public class ListSlangWordFrame extends JFrame implements ActionListener, TableM
         table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        table.getModel().addTableModelListener(this);
 
         JScrollPane sp = new JScrollPane(table);
         panelTable.setLayout(new BoxLayout(panelTable, BoxLayout.X_AXIS));
@@ -76,10 +75,5 @@ public class ListSlangWordFrame extends JFrame implements ActionListener, TableM
             this.dispose();
             new SlangApplication();
         }
-    }
-
-    @Override
-    public void tableChanged(TableModelEvent e) {
-
     }
 }

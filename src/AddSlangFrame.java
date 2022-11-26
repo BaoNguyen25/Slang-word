@@ -9,7 +9,6 @@ public class AddSlangFrame extends JFrame implements ActionListener {
     private JButton addButton;
     private JTextField slang;
     private JTextField meaning;
-    private String[] res;
 
     public AddSlangFrame() {
         list = new SlangWordList();
@@ -24,43 +23,39 @@ public class AddSlangFrame extends JFrame implements ActionListener {
         header.setAlignmentX(CENTER_ALIGNMENT);
 
         JPanel form = new JPanel();
-        JPanel slangPanel = new JPanel();
-        SpringLayout layout = new SpringLayout();
-        slangPanel.setLayout(layout);
-        JLabel slangLabel = new JLabel("Slang: ");
+        form.setPreferredSize(new Dimension(120,150));
+        form.setLayout(new BoxLayout(form, BoxLayout.X_AXIS));
+
+        JPanel textPanel = new JPanel();
+        textPanel.setPreferredSize(new Dimension(-120, 80));
+        textPanel.setLayout(null);
+        JLabel slangLabel = new JLabel("Slang:");
+        slangLabel.setBounds(80,40,50,50);
+        JLabel meaningLabel = new JLabel("Meaning:");
+        meaningLabel.setBounds(60,80,100,50);
         slangLabel.setFont(new Font("Gill Sans MT", Font.BOLD, 15));
-        slang = new JTextField("");
-        slang.setFont(new Font("Gill Sans MT", Font.BOLD, 15));
-        slangPanel.add(slangLabel, BorderLayout.LINE_START);
-        slangPanel.add(slang, BorderLayout.CENTER);
-        layout.putConstraint(SpringLayout.WEST, slangLabel, 6, SpringLayout.WEST, slangPanel);
-        layout.putConstraint(SpringLayout.NORTH, slangLabel, 6, SpringLayout.NORTH, slangPanel);
-        layout.putConstraint(SpringLayout.WEST, slang, 6, SpringLayout.EAST, slangLabel);
-        layout.putConstraint(SpringLayout.NORTH, slang, 6, SpringLayout.NORTH, slangPanel);
-        layout.putConstraint(SpringLayout.EAST, slangPanel, 6, SpringLayout.EAST, slang);
-        layout.putConstraint(SpringLayout.SOUTH, slangPanel, 6, SpringLayout.SOUTH, slang);
-
-        JPanel meaningPanel = new JPanel();
-        SpringLayout layout1 = new SpringLayout();
-        meaningPanel.setLayout(layout1);
-        JLabel meaningLabel = new JLabel("Meaning: ");
         meaningLabel.setFont(new Font("Gill Sans MT", Font.BOLD, 15));
-        meaning = new JTextField("");
-        meaning.setFont(new Font("Gill Sans MT", Font.BOLD, 15));
-        meaningPanel.add(meaningLabel, BorderLayout.LINE_START);
-        meaningPanel.add(meaning, BorderLayout.CENTER);
-        layout1.putConstraint(SpringLayout.WEST, meaningLabel, 6, SpringLayout.WEST, meaningPanel);
-        layout1.putConstraint(SpringLayout.NORTH, meaningLabel, 6, SpringLayout.NORTH, meaningPanel);
-        layout1.putConstraint(SpringLayout.WEST, meaning, 6, SpringLayout.EAST, meaningLabel);
-        layout1.putConstraint(SpringLayout.NORTH, meaning, 6, SpringLayout.NORTH, meaningPanel);
-        layout1.putConstraint(SpringLayout.EAST, meaningPanel, 6, SpringLayout.EAST, meaning);
-        layout1.putConstraint(SpringLayout.SOUTH, meaningPanel, 6, SpringLayout.SOUTH, meaning);
+        slangLabel.setPreferredSize(new Dimension(70, 30));
+        meaningLabel.setPreferredSize(new Dimension(70, 30));
+        textPanel.add(slangLabel);
+        textPanel.add(meaningLabel);
 
-        form.setLayout(new BoxLayout(form, BoxLayout.Y_AXIS));
-        container.add(Box.createRigidArea(new Dimension(0, 10)));
-        form.add(slangPanel);
-        container.add(Box.createRigidArea(new Dimension(0, 10)));
-        form.add(meaningPanel);
+        JPanel textFieldPanel = new JPanel();
+        textFieldPanel.setPreferredSize(new Dimension(100, 70));
+        slang = new JTextField("");
+        textFieldPanel.setLayout(null);
+        slang.setBounds(0,53,300,30);
+        slang.setFont(new Font("Gill Sans MT", Font.PLAIN, 15));
+        slang.setPreferredSize(new Dimension(100, 30));
+        meaning = new JTextField("");
+        meaning.setFont(new Font("Gill Sans MT", Font.PLAIN, 15));
+        meaning.setBounds(0,93,300,30);
+        meaning.setPreferredSize(new Dimension(100, 30));
+        textFieldPanel.add(slang);
+        textFieldPanel.add(meaning);
+
+        form.add(textPanel);
+        form.add(textFieldPanel);
 
         // Button Back
         JPanel bottomPanel = new JPanel();
@@ -96,7 +91,7 @@ public class AddSlangFrame extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Slang Words Application");
         this.setVisible(true);
-        this.setSize(500, 400);
+        this.setSize(500, 350);
         this.setLocationRelativeTo(null);
     }
 
@@ -107,7 +102,33 @@ public class AddSlangFrame extends JFrame implements ActionListener {
             this.dispose();
         }
         if(e.getSource() == addButton) {
+            String word = slang.getText();
+            String mean = meaning.getText();
+            if (word.isEmpty() || mean.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Slag and Meaning maybe empty", "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
+            if(list.checkSlangExists(word)) {
+                Object[] options = { "Overwrite", "Duplicate" };
+                int n = JOptionPane.showOptionDialog(this,
+                        "Slang '" +  word + "' have already existed on Slang Word List", "Message",
+                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+                if (n == 0) {
+                    // Overwrite
+                    new OverwriteSlangFrame(word, mean);
+                    this.dispose();
+                } else if (n == 1) {
+                    // Duplicate
+                    list.addSlang(word, mean);
+                    JOptionPane.showMessageDialog(this, "Duplicated Successfully!");
+                }
+            }
+            else {
+                list.addSlang(word, mean);
+                JOptionPane.showMessageDialog(this, "Added Successfully!");
+            }
+            slang.setText("");
+            meaning.setText("");
         }
     }
 }

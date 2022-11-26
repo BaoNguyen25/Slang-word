@@ -156,7 +156,7 @@ public class DeleteSlangFrame extends JFrame implements ActionListener, ListSele
         if (n == 0) {
             list.deleteSlang(slang, (String) table.getValueAt(row, 2));
             model.removeRow(row);
-            JOptionPane.showMessageDialog(this, "Deleted successfully");
+            JOptionPane.showMessageDialog(this, "Deleted Successfully!");
         }
     }
 }
