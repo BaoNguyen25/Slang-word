@@ -172,5 +172,19 @@ public class SlangApplication extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
         }
+
+        if(e.getActionCommand() == "Game") {
+            Object[] options = { "Random Slang", "Random Definition" };
+            int n = JOptionPane.showOptionDialog(this,
+                    "Choose a mode you want to play", "Message",
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+            if (n == 0) {
+                new GameSlang();
+                this.dispose();
+            } else if (n == 1) {
+                new GameDefinition();
+                this.dispose();
+            }
+        }
     }
 }
